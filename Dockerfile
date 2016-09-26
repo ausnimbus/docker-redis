@@ -2,8 +2,8 @@ FROM  openshift/base-centos7
 
 MAINTAINER AusNimbus <support@ausnimbus.com.au>
 
-ENV REDIS_VERSION 3.2.3
-ENV REDIS_SHA1 92d6d93ef2efc91e595c8bf578bf72baff397507
+ENV REDIS_VERSION 3.2.4
+ENV REDIS_SHA1 f0fe685cbfdb8c2d8c74613ad8a5a5f33fba40c9
 
 LABEL io.k8s.description="Redis is an open source (BSD licensed), in-memory data structure store, used as database, cache and message broker." \
       io.k8s.display-name="Redis 3.2" \

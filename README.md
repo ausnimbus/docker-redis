@@ -3,7 +3,7 @@ Redis Docker Image
 
 This repository contains Dockerfile to run Redis on AusNimbus (OpenShift v3).
 
-Current redis version is 3.2.1
+Current redis version is 3.2.4
 
 Configuring
 -----------
