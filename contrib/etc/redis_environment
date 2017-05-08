@@ -1,0 +1,8 @@
+#!/bin/bash
+
+source cgroup-limits
+
+export OPTIONS=${REDIS_EXTRA_PARAMETERS:-""}
+export REDIS_MAX_MEMORY=${REDIS_MAX_MEMORY:-"$((MEMORY_LIMIT_IN_BYTES/1000000-32))"}
+
+OPTIONS+=" --maxmemory $REDIS_MAX_MEMORY"

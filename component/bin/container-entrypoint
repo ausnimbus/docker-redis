@@ -1,0 +1,5 @@
+#!/bin/bash -eu
+
+source /opt/app-root/etc/redis_environment
+
+exec docker-entrypoint.sh $@ $OPTIONS
