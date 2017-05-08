@@ -7,7 +7,6 @@ This repository contains the source for deploying [Redis](https://www.ausnimbus.
 on [AusNimbus](https://www.ausnimbus.com.au/).
 
 ## Environment Variables
------------
 
 The following environment variables are available to configure your redis instance:
 
