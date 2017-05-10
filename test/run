@@ -14,13 +14,11 @@ VERSION_COMMAND="redis-server --version"
 extra_tests() {
   info "Testing redis ping"
   test_container_command "redis-cli -h $(container_ip) ping" "PONG"
-  check_result $?
 
   info "Testing redis set"
   container_exec "redis-cli -h $(container_ip) set a 1"
   container_exec "redis-cli -h $(container_ip) set b 2"
   test_container_command "redis-cli -h $(container_ip) get b" "2"
-  check_result $?
 }
 
 test_dir="$(readlink -zf $(dirname "${BASH_SOURCE[0]}"))"
