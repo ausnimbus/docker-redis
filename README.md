@@ -8,10 +8,11 @@ on [AusNimbus](https://www.ausnimbus.com.au/).
 
 ## Environment Variables
 
-The following environment variables are available to configure your redis instance:
+The following environment variables are available to configure your Redis instance:
 
-* REDIS_MAX_MEMORY: Max memory Redis can use (automatically set to maximum memory)
-* REDIS_EXTRA_PARAMETERS: Extra command line parameters to pass to command `redis-server`
+- REDIS_MAXMEMORY: Max memory Redis can use (default: automatically configured)
+- REDIS_DIR: Redis data directory (default: `/opt/app-root/data`)
+- REDIS_EXTRA_OPTIONS: Extra parameters to passed to `redis-server`
 
 ## Versions
 
