@@ -41,8 +41,6 @@ COPY ./component/bin/ /usr/bin/
 LABEL io.openshift.expose-services="6379:tcp" \
     io.openshift.tags="component,redis"
 
-RUN usermod -o -u 100 default
-
 # </template>
 # <post>
 
