@@ -2,8 +2,8 @@
 
 NAME="redis"
 DISPLAY_NAME="Redis"
-REPO="ausnimbus/redis"
-TEMPLATES="pre,component,template,post"
+REPO="redis"
+TYPE="component"
 VARIANT="alpine"
 VERSIONS="3.2"
 
