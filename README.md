@@ -1,7 +1,7 @@
 # AusNimbus Redis
 
-[![Build Status](https://travis-ci.org/ausnimbus/redis-container.svg?branch=master)](https://travis-ci.org/ausnimbus/redis-container)
-[![Docker Repository on Quay](https://quay.io/repository/ausnimbus/redis/status "Docker Repository on Quay")](https://quay.io/repository/ausnimbus/redis)
+[![Build Status](https://travis-ci.org/ausnimbus/redis-component.svg?branch=master)](https://travis-ci.org/ausnimbus/redis-component)
+[![Docker Repository on Quay](https://quay.io/repository/ausnimbus/redis-component/status "Docker Repository on Quay")](https://quay.io/repository/ausnimbus/redis-component)
 
 This repository contains the source for deploying [Redis](https://www.ausnimbus.com.au/instant-apps/redis/)
 on [AusNimbus](https://www.ausnimbus.com.au/).
