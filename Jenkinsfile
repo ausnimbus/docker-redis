@@ -18,7 +18,7 @@ node {
                                                 "metadata" : [
                                                         "name" : "redis",
                                                         "labels" : [
-                                                                "builder" : "redis"
+                                                                "builder" : "redis-component"
                                                         ]
                                                 ],
                                                 "spec" : [
@@ -40,9 +40,9 @@ node {
                                                 "apiVersion" : "v1",
                                                 "kind" : "ImageStream",
                                                 "metadata" : [
-                                                        "name" : "redis",
+                                                        "name" : "redis-component",
                                                         "labels" : [
-                                                                "builder" : "redis"
+                                                                "builder" : "redis-component"
                                                         ]
                                                 ]
                                         ]
@@ -53,22 +53,22 @@ node {
                                 "apiVersion" : "v1",
                                 "kind" : "BuildConfig",
                                 "metadata" : [
-                                        "name" : "redis-${versions[i]}",
+                                        "name" : "redis-component-${versions[i]}",
                                         "labels" : [
-                                                "builder" : "redis"
+                                                "builder" : "redis-component"
                                         ]
                                 ],
                                 "spec" : [
                                         "output" : [
                                                 "to" : [
                                                         "kind" : "ImageStreamTag",
-                                                        "name" : "redis:${versions[i]}"
+                                                        "name" : "redis-component:${versions[i]}"
                                                 ]
                                         ],
                                         "runPolicy" : "Serial",
                                         "source" : [
                                                 "git" : [
-                                                        "uri" : "https://github.com/ausnimbus/redis"
+                                                        "uri" : "https://github.com/ausnimbus/redis-component"
                                                 ],
                                                 "type" : "Git"
                                         ],
@@ -84,7 +84,7 @@ node {
                                         ]
                                 ]
                         ])
-        echo "Created redis:${versions[i]} objects"
+        echo "Created redis-component:${versions[i]} objects"
         /**
         * TODO: Replace the sleep with import-image
         * openshift.importImage("redis:${versions[i]}-alpine")
@@ -92,9 +92,9 @@ node {
         sleep 60
 
         echo "==============================="
-        echo "Starting build redis-${versions[i]}"
+        echo "Starting build redis-component-${versions[i]}"
         echo "==============================="
-        def builds = openshift.startBuild("redis-${versions[i]}");
+        def builds = openshift.startBuild("redis-component-${versions[i]}");
 
         timeout(10) {
                 builds.untilEach(1) {
@@ -111,7 +111,7 @@ node {
         echo "Starting test application"
         echo "==============================="
 
-        def testApp = openshift.newApp("redis:${versions[i]}", "-l app=redis-ex");
+        def testApp = openshift.newApp("redis-component:${versions[i]}", "-l app=redis-ex");
         echo "new-app created ${testApp.count()} objects named: ${testApp.names()}"
         testApp.describe()
 
