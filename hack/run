@@ -2,7 +2,6 @@
 
 NAME="redis"
 DISPLAY_NAME="Redis"
-REPO="redis-component"
 TYPE="component"
 VARIANT="alpine"
 VERSIONS="3.2"
