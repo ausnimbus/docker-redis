@@ -4,11 +4,24 @@
 * DO NOT EDIT IT DIRECTLY.
 */
 node {
-        def versions = "3.2".split(',');
-        for (int i = 0; i < versions.length; i++) {
-                try {
-                        stage("Build (Redis ${versions[i]})") {
-                                openshift.withCluster() {
+        def variants = "".split(',');
+        for (int v = 0; v < variants.length; v++) {
+
+                def versions = "3.2".split(',');
+                for (int i = 0; i < versions.length; i++) {
+
+                  if (variants[v] == "default") {
+                    variant = ""
+                    tag = versions[i]
+                  } else {
+                    variant = variants[v]
+                    tag = versions[i] + "-" + variant
+                  }
+
+
+                        try {
+                                stage("Build (Redis-${tag})") {
+                                        openshift.withCluster() {
         openshift.apply([
                                 "apiVersion" : "v1",
                                 "items" : [
@@ -24,10 +37,10 @@ node {
                                                 "spec" : [
                                                         "tags" : [
                                                                 [
-                                                                        "name" : "${versions[i]}-alpine",
+                                                                        "name" : "${tag}",
                                                                         "from" : [
                                                                                 "kind" : "DockerImage",
-                                                                                "name" : "redis:${versions[i]}-alpine",
+                                                                                "name" : "redis:${tag}",
                                                                         ],
                                                                         "referencePolicy" : [
                                                                                 "type" : "Source"
@@ -53,7 +66,7 @@ node {
                                 "apiVersion" : "v1",
                                 "kind" : "BuildConfig",
                                 "metadata" : [
-                                        "name" : "redis-component-${versions[i]}",
+                                        "name" : "redis-component-${tag}",
                                         "labels" : [
                                                 "builder" : "redis-component"
                                         ]
@@ -62,7 +75,7 @@ node {
                                         "output" : [
                                                 "to" : [
                                                         "kind" : "ImageStreamTag",
-                                                        "name" : "redis-component:${versions[i]}"
+                                                        "name" : "redis-component:${tag}"
                                                 ]
                                         ],
                                         "runPolicy" : "Serial",
@@ -79,27 +92,27 @@ node {
                                         ],
                                         "strategy" : [
                                                 "dockerStrategy" : [
-                                                        "dockerfilePath" : "versions/${versions[i]}/Dockerfile",
+                                                        "dockerfilePath" : "versions/${versions[i]}/${variant}/Dockerfile",
                                                         "from" : [
                                                                 "kind" : "ImageStreamTag",
-                                                                "name" : "redis:${versions[i]}-alpine"
+                                                                "name" : "redis:${tag}"
                                                         ]
                                                 ],
                                                 "type" : "Docker"
                                         ]
                                 ]
                         ])
-        echo "Created redis-component:${versions[i]} objects"
+        echo "Created redis-component:${tag} objects"
         /**
         * TODO: Replace the sleep with import-image
-        * openshift.importImage("redis:${versions[i]}-alpine")
+        * openshift.importImage("redis:${tag}")
         */
         sleep 60
 
         echo "==============================="
-        echo "Starting build redis-component-${versions[i]}"
+        echo "Starting build redis-component-${tag}"
         echo "==============================="
-        def builds = openshift.startBuild("redis-component-${versions[i]}");
+        def builds = openshift.startBuild("redis-component-${tag}");
 
         timeout(10) {
                 builds.untilEach(1) {
@@ -109,14 +122,14 @@ node {
         echo "Finished build ${builds.names()}"
 }
 
-                        }
-                        stage("Test (Redis ${versions[i]})") {
-                                openshift.withCluster() {
+                                }
+                                stage("Test (Redis-${tag})") {
+                                        openshift.withCluster() {
         echo "==============================="
         echo "Starting test application"
         echo "==============================="
 
-        def testApp = openshift.newApp("redis-component:${versions[i]}", "-l app=redis-ex");
+        def testApp = openshift.newApp("redis-component:${tag}", "-l app=redis-ex");
         echo "new-app created ${testApp.count()} objects named: ${testApp.names()}"
         testApp.describe()
 
@@ -138,28 +151,29 @@ node {
         sh ": </dev/tcp/$testAppHost/$testAppPort"
 }
 
-                        }
-                        stage("Stage (Redis ${versions[i]})") {
-                                openshift.withCluster() {
+                                }
+                                stage("Stage (Redis-${tag})") {
+                                        openshift.withCluster() {
         echo "==============================="
         echo "Tag new image into staging"
         echo "==============================="
 
-        openshift.tag("ausnimbus-ci/redis-component:${versions[i]}", "ausnimbus/redis-component:${versions[i]}")
+        openshift.tag("ausnimbus-ci/redis-component:${tag}", "ausnimbus/redis-component:${tag}")
 }
 
+                                }
+                        } finally {
+                                openshift.withCluster() {
+                                        echo "Deleting test resources redis-ex"
+                                        openshift.selector("dc", [app: "redis-ex"]).delete()
+                                        openshift.selector("bc", [app: "redis-ex"]).delete()
+                                        openshift.selector("svc", [app: "redis-ex"]).delete()
+                                        openshift.selector("is", [app: "redis-ex"]).delete()
+                                        openshift.selector("pods", [app: "redis-ex"]).delete()
+                                        openshift.selector("routes", [app: "redis-ex"]).delete()
+                                }
                         }
-                } finally {
-                        openshift.withCluster() {
-                                echo "Deleting test resources redis-ex"
-                                openshift.selector("dc", [app: "redis-ex"]).delete()
-                                openshift.selector("bc", [app: "redis-ex"]).delete()
-                                openshift.selector("svc", [app: "redis-ex"]).delete()
-                                openshift.selector("is", [app: "redis-ex"]).delete()
-                                openshift.selector("pods", [app: "redis-ex"]).delete()
-                                openshift.selector("routes", [app: "redis-ex"]).delete()
-                        }
-                }
 
+                }
         }
 }
