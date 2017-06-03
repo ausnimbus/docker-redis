@@ -3,7 +3,7 @@
 NAME="redis"
 DISPLAY_NAME="Redis"
 TYPE="component"
-VARIANT="alpine"
+VARIANTS="alpine"
 VERSIONS="3.2"
 
 DOCKER_PUSH=${DOCKER_PUSH:-"false"}
