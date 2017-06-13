@@ -4,7 +4,7 @@
 * DO NOT EDIT IT DIRECTLY.
 */
 node {
-        def variants = "alpine".split(',');
+        def variants = "default".split(',');
         for (int v = 0; v < variants.length; v++) {
 
                 def versions = "3.2".split(',');
@@ -12,10 +12,10 @@ node {
 
                   if (variants[v] == "default") {
                     variant = ""
-                    tag = versions[i]
+                    tag = "${versions[i]}"
                   } else {
                     variant = variants[v]
-                    tag = versions[i] + "-" + variant
+                    tag = "${versions[i]}-${variant}"
                   }
 
 
