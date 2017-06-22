@@ -158,7 +158,7 @@ node {
         echo "Tag new image into staging"
         echo "==============================="
 
-        openshift.tag("ausnimbus-ci/redis-component:${tag}", "ausnimbus/redis-component:${tag}")
+        openshift.tag("ausnimbus-ci/redis-component:${tag}", "ausnimbus-staging/redis-component:${tag}")
 }
 
                                 }
