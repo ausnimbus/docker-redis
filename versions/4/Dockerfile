@@ -3,15 +3,15 @@
 #
 # DO NOT EDIT IT DIRECTLY.
 #
-FROM redis:3.2
+FROM redis:4
 # <pre>
 
 MAINTAINER AusNimbus <support@ausnimbus.com.au>
 
-LABEL summary="Platform for running Redis 3.2 applications" \
+LABEL summary="Platform for running Redis 4 applications" \
       maintainer="AusNimbus <support@ausnimbus.com.au>" \
-      io.k8s.description="Platform for running Redis 3.2 applications" \
-      io.k8s.display-name="Redis 3.2"
+      io.k8s.description="Platform for running Redis 4 applications" \
+      io.k8s.display-name="Redis 4"
 
 ENV USER=999 \
     HOME=/opt/app-root/src

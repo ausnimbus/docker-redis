@@ -4,7 +4,7 @@ NAME="redis"
 DISPLAY_NAME="Redis"
 TYPE="component"
 VARIANTS=${VARIANTS:-"default,alpine"}
-VERSIONS=${VERSIONS:-"3.2"}
+VERSIONS=${VERSIONS:-"3,4"}
 
 DOCKER_PUSH=${DOCKER_PUSH:-"false"}
 

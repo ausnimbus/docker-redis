@@ -14,4 +14,5 @@ The [AusNimbus](https://www.ausnimbus.com.au/) component for [Redis](https://www
 
 The versions currently supported are:
 
-- 3.2
+- 3
+- 4
