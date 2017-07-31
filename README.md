@@ -4,15 +4,25 @@
 
 The [AusNimbus](https://www.ausnimbus.com.au/) component for [Redis](https://www.ausnimbus.com.au/instant-apps/redis/).
 
-## Environment Variables
+This document describes the behaviour and environment configuration when running Redis on AusNimbus.
 
-- REDIS_MAXMEMORY: Max memory Redis can use (default: automatically configured)
-- REDIS_DIR: Redis data directory (default: `/data`)
-- REDIS_EXTRA_OPTIONS: Extra parameters to passed to `redis-server`
+## Table of Contents
 
-## Versions
+- [Runtime Environments](#runtime-environments)
+- [Environment Configuration](#environment-configuration)
 
-The versions currently supported are:
+## Runtime Environments
 
-- 3
-- 4
+AusNimbus supports the latest stable release for Redis.
+
+The currently supported versions are `3` and `4`
+
+## Environment Configuration
+
+The following environment variables are available for you to configure your Redis environment:
+
+NAME                       | Description
+---------------------------|-------------
+REDIS_MAX_MEMORY           | Max memory Redis can use (default: automatically configured)
+REDIS_DIR                  | Redis data directory (default: `/data`)
+REDIS_EXTRA_OPTIONS        | Extra parameters to passed to `redis-server`
